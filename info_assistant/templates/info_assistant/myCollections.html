@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <script>
+        function create_category(){
+            window.location.href={% url 'info_assistant:create_category' %}
+        }
+
+        function delete_category(nid){
+            var xmlhttp;
+            xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+                    alert("删除成功")
+                    window.location.href={% url 'info_assistant:show' %}
+                }
+            }
+            xmlhttp.open("GET",'http://127.0.0.1:8000/delete_category/' + nid,true);
+            xmlhttp.send();
+        }
+
+        function edit_category(nid){
+            window.location.href='http://127.0.0.1:8000/edit_interface/' + nid
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-default" id="navbar">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar" aria-expanded="false">
+                        <span class="sr-only"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <h2 class="logo">
+                        <a href="{% url 'info_assistant:index' %}">Python技术信息助理</a>
+                    </h2>
+                </div>
+                <div class="collapse navbar-collapse" id="header-navbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'info_assistant:index' %}">首页</a></li>
+                        <li><a href="{% url 'info_assistant:show' %}">我的收藏</a></li>
+                        <li><a href="{% url 'info_assistant:enter_admin' %}">管理</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+<div class="container">
+  <button type="button" class="btn btn-success pull-right" onclick="create_category()">新建收藏夹</button>
+    <br/><br/><br/>
+    {% if category_list %}
+    <ul class="list-group">
+        {% for category in category_list %}
+        <li class="list-group-item input-lg" href="#"><a href="{% url 'info_assistant:showall'  category.nid  %}">{{ category.title }}</a>
+            <button type="button" class="btn btn-danger pull-right input-sm" onclick="delete_category({{ category.nid }})">删除</button>
+            <button type="button" class="btn btn-primary pull-right input-sm" onclick="edit_category({{ category.nid }})">编辑</button>
+            <!-- <button type="button" class="btn btn-success pull-right input-sm">查看</button> -->
+        </li>
+        <br/>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+
+</div>
+</body>
+
+</html>
