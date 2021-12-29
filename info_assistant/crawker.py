@@ -19,7 +19,7 @@ def get_results(key):
     infos = []
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.109 Safari/537.36'
     headers = {'User-Agent': user_agent}
-    s = Service("E://chromedriver.exe")
+    s = Service("D://chromedriver.exe")
     # 验证成功
     driver = webdriver.Chrome(service=s)
     # csdn 搜索网站
